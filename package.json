@@ -1,7 +1,7 @@
 {
-  "name": "subscriber",
+  "name": "novelnest-catalog-service",
   "version": "1.0.0",
-  "description": "",
+  "description": "Catalog service for NovelNest",
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=development ts-node ./src",
