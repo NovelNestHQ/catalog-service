@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:6
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - app_network
+
+  catalog-service:
+    image: quay.io/novelnest/catalog-service:latest
+    # build: .
+    container_name: catalog-service
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - QUEUE_NAME=${QUEUE_NAME}
+      - MONGO_DB=${MONGO_DB}
+      - MONGODB_URI=${MONGODB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+      - PORT=${PORT}
+    ports:
+      - "4000:4000"
+    restart: always
+    networks:
+      - app_network
